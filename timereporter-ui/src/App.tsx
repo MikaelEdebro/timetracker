@@ -2,16 +2,25 @@ import { useEffect } from "react";
 import "./App.css";
 
 function App() {
+  const addTime = () => {
+    console.log("Add time");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://127.0.0.1:3000");
+      console.log(import.meta.env);
+      const response = await fetch(import.meta.env.API_URL);
       const newData = await response.json();
       console.log({ newData });
     };
 
     fetchData();
   });
-  return <div className="App">testk</div>;
+  return (
+    <div className="App">
+      <button onClick={(event) => addTime()}>Add random time slot</button>
+    </div>
+  );
 }
 
 export default App;
