@@ -8,8 +8,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(import.meta.env);
-      const response = await fetch(import.meta.env.API_URL);
+      const response = await fetch(import.meta.env.VITE_API_URL);
       const newData = await response.json();
       console.log({ newData });
     };
