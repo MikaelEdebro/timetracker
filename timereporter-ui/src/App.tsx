@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import "./App.css";
+import { useEffect } from 'react';
+import './App.css';
 
 function App() {
   const addTime = () => {
-    console.log("Add time");
+    console.log('Add time');
   };
 
   useEffect(() => {
