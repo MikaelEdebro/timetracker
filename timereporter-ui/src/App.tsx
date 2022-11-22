@@ -17,7 +17,7 @@ function App() {
   });
   return (
     <div className="App">
-      <button onClick={(event) => addTime()}>Add random time slot</button>
+      <button onClick={(_) => addTime()}>Add random time slot</button>
     </div>
   );
 }
