@@ -1,7 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
+type Quote = {
+  author: string;
+  id: number;
+  quote: string;
+};
+
 function App() {
+  const [quotes, setQuotes] = useState<Quote[] | null>();
+
   const addTime = () => {
     console.log('Add time');
   };
@@ -10,14 +18,16 @@ function App() {
     const fetchData = async () => {
       const response = await fetch(import.meta.env.VITE_API_URL);
       const newData = await response.json();
-      console.log({ newData });
+      console.log(newData);
+      setQuotes(newData);
     };
 
     fetchData();
-  });
+  }, []);
   return (
     <div className="App">
       <button onClick={(_) => addTime()}>Add random time slot</button>
+      <div>{quotes && quotes.map((c) => c.quote)}</div>
     </div>
   );
 }

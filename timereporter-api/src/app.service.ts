@@ -1,24 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { quote } from '@prisma/client';
+import { PrismaService } from './prisma/prisma.service';
 @Injectable()
 export class AppService {
-  async getHello(): Promise<string[]> {
-    main()
-      .then(async () => {
-        await prisma.$disconnect();
-      })
-      .catch(async (e) => {
-        console.error(e);
-        await prisma.$disconnect();
-      });
-    return ['test', 'test2'];
-  }
-}
+  constructor(private prisma: PrismaService) {}
 
-async function main() {
-  const quotes = await prisma.quote.findMany();
-  console.log(quotes);
-  // ... you will write your Prisma Client queries here
+  async getHello(): Promise<quote[] | null> {
+    return this.prisma.quote.findMany();
+  }
 }
