@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 
 type Quote = {
   author: string;
@@ -26,8 +25,9 @@ function App() {
   }, []);
   return (
     <div className="App">
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <button onClick={(_) => addTime()}>Add random time slot</button>
-      <div>{quotes && quotes.map((c) => c.quote)}</div>
+      <div>{quotes && quotes.map((c) => <div>{c.quote}</div>)}</div>
     </div>
   );
 }
