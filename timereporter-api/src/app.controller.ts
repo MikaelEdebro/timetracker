@@ -9,4 +9,13 @@ export class AppController {
   getHello() {
     return this.appService.getHello();
   }
+
+  test() {
+    const hello = 'testone says hello';
+    const test = true;
+    if (test) {
+      console.log('helloo');
+    }
+    console.log(hello);
+  }
 }

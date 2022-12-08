@@ -25,7 +25,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="text-3xl font-bold underline">Time Reporter App</h1>
       <button onClick={(_) => addTime()}>Add random time slot</button>
       <div>{quotes && quotes.map((c) => <div>{c.quote}</div>)}</div>
     </div>
