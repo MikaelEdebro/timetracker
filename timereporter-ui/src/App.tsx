@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 type Quote = {
   author: string;
@@ -7,27 +8,24 @@ type Quote = {
 };
 
 function App() {
-  const [quotes, setQuotes] = useState<Quote[] | null>();
+  const { isLoading, error, data } = useQuery<Quote[], Error>('repoData', () =>
+    fetch(import.meta.env.VITE_API_URL).then((res) => res.json()),
+  );
+
+  if (isLoading) return <>Loading...</>;
+
+  if (error) return <>'An error has occurred: ' + error.message</>;
 
   const addTime = () => {
     console.log('Add time');
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(import.meta.env.VITE_API_URL);
-      const newData = await response.json();
-      console.log(newData);
-      setQuotes(newData);
-    };
-
-    fetchData();
-  }, []);
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">Time Reporter App</h1>
-      <button onClick={(_) => addTime()}>Add random time slot</button>
-      <div>{quotes && quotes.map((c) => <div>{c.quote}</div>)}</div>
+    <div>
+      {data && data.map((quote) => <div key={quote.id}>{quote.quote}</div>)}
+      <button className="border p-2" onClick={() => addTime()}>
+        Add time slot
+      </button>
     </div>
   );
 }
