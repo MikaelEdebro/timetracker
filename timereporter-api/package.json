@@ -10,7 +10,7 @@
     "prisma:generate": "prisma generate",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "DATABASE_URL=postgresql://postgres:postgres@0.0.0.0:5432/postgres nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:docker": "npm run build && npm run start:prod",
