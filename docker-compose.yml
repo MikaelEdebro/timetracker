@@ -2,37 +2,41 @@ version: '3.8'
 services:
   db:
     image: postgres
+    container_name: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
       - db:/var/lib/postgresql/data
       - ./timereporter-api/db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
   api:
-    container_name: timereporter-api
     build:
       context: ./timereporter-api
       target: production
-    image: timereporter-api
+    container_name: api
     depends_on:
       - db
     ports:
       - 3000:3000
-    environment:
-      NODE_ENV: production
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: postgres
-    links:
-      - db
+    env_file:
+      - ./timereporter-api/.env
     volumes:
-      - ./timereporter-api:/src
-      - /src/node_modules
+      - ./timereporter-api/src:/app/src
+
+  ui:
+    container_name: ui
+    build: ./timereporter-ui
+    depends_on:
+      - api
+    ports:
+      - 80:80
+    # volumes:
+    #   - ./timereporter-ui:/src
+    #   - /
+
 volumes:
   db:
-    driver: local

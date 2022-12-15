@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
-type Quote = {
-  author: string;
+type Post = {
   id: number;
-  quote: string;
+  title: string;
+  createdAt: Date;
+  content: string | null;
+  published: boolean;
+  authorId: number;
 };
 
 function App() {
-  const { isLoading, error, data } = useQuery<Quote[], Error>('repoData', () =>
+  const { isLoading, error, data } = useQuery<Post[], Error>('repoData', () =>
     fetch(import.meta.env.VITE_API_URL).then((res) => res.json()),
   );
 
@@ -22,7 +25,7 @@ function App() {
 
   return (
     <div>
-      {data && data.map((quote) => <div key={quote.id}>{quote.quote}</div>)}
+      {data && data.map((post) => <div key={post.id}>{post.title}</div>)}
       <button className="border p-2" onClick={() => addTime()}>
         Add time slot
       </button>

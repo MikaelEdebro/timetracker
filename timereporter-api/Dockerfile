@@ -1,13 +1,15 @@
-FROM node:18-alpine as base
-WORKDIR /src
-COPY package*.json ./
-RUN ls
-EXPOSE 3000
+FROM node:lts as base
+WORKDIR /app
+COPY package*.json .
+RUN npm ci
+COPY prisma .
+RUN npm run prisma:generate
+COPY . .
+RUN npm run build
 
 FROM base as production
 ENV NODE_ENV=production
-RUN npm ci
-RUN ls
-COPY --chown=node:node . ./
-USER node
-CMD ["npm", "run", "start:docker"]
+
+EXPOSE 3000
+
+CMD ["sh", "-c", "npm run start:prod"]
