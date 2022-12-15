@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Post } from './App';
 
-export default function AddPostForm() {
+export default function AddPostForm({ onSubmitCallback }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -30,6 +30,7 @@ export default function AddPostForm() {
     fetch(import.meta.env.VITE_API_URL + '/posts', options)
       .then((res) => {
         clearForm();
+        onSubmitCallback();
       })
       .catch((err) => console.error(err));
   };

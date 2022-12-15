@@ -7,7 +7,8 @@ export class PostsController {
   constructor(private prisma: PrismaService) {}
 
   @Get()
-  getAllPosts() {
+  async getAllPosts() {
+    await wait(1000);
     return this.prisma.post.findMany();
   }
 
@@ -17,4 +18,10 @@ export class PostsController {
       data: post,
     });
   }
+}
+
+function wait(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
 }
