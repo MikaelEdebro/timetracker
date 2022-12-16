@@ -1,12 +1,24 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+  useQuery,
+} from '@tanstack/react-query';
 import AddPostForm from './AddPostForm';
+
+export type Author = {
+  id?: number;
+  email: string;
+  name: string;
+};
 
 export type Post = {
   id?: number;
   title: string;
   content: string | null;
   authorId: number;
+  author?: Author;
   createdAt?: Date;
   published?: boolean;
 };
@@ -14,11 +26,12 @@ export type Post = {
 function App() {
   const [refetch, setRefetch] = useState(0);
 
-  const { isLoading, error, data } = useQuery<Post[], Error>(
-    ['posts', refetch],
-    () =>
+  // Queries
+  const { isLoading, error, data } = useQuery<Post[], Error>({
+    queryKey: ['posts', refetch],
+    queryFn: () =>
       fetch(import.meta.env.VITE_API_URL + '/posts').then((res) => res.json()),
-  );
+  });
 
   if (isLoading) return <>Loading...</>;
 
@@ -35,6 +48,7 @@ function App() {
                 <td>{post.id}</td>
                 <td>{post.title}</td>
                 <td>{post.content}</td>
+                <td>{post.author?.name}</td>
               </tr>
             ))}
         </tbody>

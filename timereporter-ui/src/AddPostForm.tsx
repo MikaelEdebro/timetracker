@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Post } from './App';
 
-export default function AddPostForm({ onSubmitCallback }) {
+type Props = {
+  onSubmitCallback: () => unknown;
+};
+
+export default function AddPostForm({ onSubmitCallback }: Props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
