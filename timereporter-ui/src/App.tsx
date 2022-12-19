@@ -6,6 +6,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import AddPostForm from './AddPostForm';
+import PostRow from './PostRow';
 
 export type Author = {
   id?: number;
@@ -26,6 +27,8 @@ export type Post = {
 function App() {
   const [refetch, setRefetch] = useState(0);
 
+  const triggerRefetch = () => setRefetch(Math.random());
+
   // Queries
   const { isLoading, error, data } = useQuery<Post[], Error>({
     queryKey: ['posts', refetch],
@@ -42,18 +45,10 @@ function App() {
       randomNumber: {refetch}
       <table>
         <tbody>
-          {data &&
-            data.map((post) => (
-              <tr key={post.id}>
-                <td>{post.id}</td>
-                <td>{post.title}</td>
-                <td>{post.content}</td>
-                <td>{post.author?.name}</td>
-              </tr>
-            ))}
+          {data && data.map((post) => <PostRow key={post.id} post={post} />)}
         </tbody>
       </table>
-      <AddPostForm onSubmitCallback={() => setRefetch(Math.random())} />
+      <AddPostForm onSubmitCallback={triggerRefetch} />
     </div>
   );
 }
